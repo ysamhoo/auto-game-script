@@ -1,0 +1,216 @@
+# -*- encoding=utf8 -*-
+from airtest.core.api import *
+
+auto_setup(__file__)
+connect_device("Windows:///?title_re=百炼英雄")
+
+def reload():
+    try:
+        touch(Template(r"tools.png", target_pos=4, record_pos=(0.341, -0.886), resolution=(1000, 1863)))
+        touch(Template(r"reload.png", record_pos=(0.026, -0.356), resolution=(1000, 1863)))
+        sleep(5)
+
+        connect_device("Windows:///?title_re=百炼英雄")
+        wait(Template(r"chufa.png", target_pos=7, record_pos=(0.115, -0.225), resolution=(996, 1856)))
+
+        # 等待一会，以防活动页面延迟弹出
+        sleep(3)
+
+    except:
+        sleep(1)
+
+    finally:
+        time = 0
+        while time < 5 and not exists(Template(r"chufa.png", target_pos=7, record_pos=(0.115, -0.225), resolution=(996, 1856))):
+            touch([525, 1800]) # 点击底部空白关闭页面
+            sleep(1)
+            time += 1
+
+def transport(place):
+    if exists(Template(r"huicheng.png", record_pos=(0.401, 0.667), resolution=(1248, 2266))): # 8’
+        touch(Template(r"huicheng.png", record_pos=(0.401, 0.667), resolution=(1248, 2266)))
+        if exists(Template(r"comfirm.png", record_pos=(0.173, 0.21), resolution=(1075, 1997))):
+            touch(comfirm.png)
+        wait(Template(r"chufa.png", record_pos=(0.115, -0.225), resolution=(996, 1856)))
+
+    touch(Template(r"chufa.png", target_pos=7, record_pos=(0.115, -0.225), resolution=(996, 1856)))
+
+    if place == "教堂山谷":
+        touch(Template(r"qianshaopingyuan.png", record_pos=(-0.267, -0.456), resolution=(1000, 1863)))
+        touch(Template(r"jiaotangshangu.png", record_pos=(0.166, -0.228), resolution=(1000, 1863)))
+    elif place == "贫瘠营地":
+        touch(Template(r"huangwuzhidi.png", record_pos=(-0.263, -0.329), resolution=(1000, 1863)))
+        touch(Template(r"pinjiyingdi.png", record_pos=(0.164, -0.42), resolution=(1000, 1863)))
+    elif place == "双峰山谷":
+        touch(Template(r"huangwuzhidi.png", record_pos=(-0.263, -0.329), resolution=(1000, 1863)))
+        touch(Template(r"shuangfengshangu.png", record_pos=(0.163, -0.227), resolution=(1000, 1863)))
+    elif place == "腐烂沼泽":
+        touch(Template(r"wuranzhilin.png", record_pos=(-0.262, -0.202), resolution=(1002, 1865)))
+        touch(Template(r"fulanzhaoze.png", record_pos=(0.165, -0.231), resolution=(1002, 1865)))
+    elif place == "寒风营地":
+        touch(Template(r"wuranzhilin.png", record_pos=(-0.262, -0.202), resolution=(1002, 1865)))
+        touch(Template(r"hanfengyingdi.png", record_pos=(0.165, -0.04), resolution=(1002, 1865)))
+    elif place == "魔力之环":
+        touch(Template(r"yanhandidai.png", record_pos=(-0.261, -0.088), resolution=(1232, 2243)))
+        touch(Template(r"molizhihuan.png", record_pos=(0.163, -0.421), resolution=(1000, 1863)))
+
+    elif place == "北风营地":
+        touch(Template(r"yanhandidai.png", record_pos=(-0.261, -0.088), resolution=(1232, 2243)))
+        touch(Template(r"beifengyingdi.png", record_pos=(0.162, -0.234), resolution=(1232, 2243)))
+    elif place == "王座大厅":
+        touch(Template(r"bingguanbaolei.png", record_pos=(-0.265, 0.043), resolution=(1000, 1863)))
+        touch(Template(r"wangzuodating.png", record_pos=(0.166, -0.416), resolution=(1000, 1863)))
+    elif place == "冰冠禁区":
+        touch(Template(r"bingguanbaolei.png", record_pos=(-0.265, 0.043), resolution=(1000, 1863)))
+        touch(Template(r"bingguanjinqu.png", record_pos=(0.161, -0.038), resolution=(1000, 1863)))
+    elif place == "炽热哨站":
+        touch(Template(r"ranshaopingyuan.png", record_pos=(-0.263, 0.292), resolution=(1000, 1863)))
+        touch(Template(r"jireshaozhan.png", record_pos=(0.164, -0.229), resolution=(1000, 1863)))
+
+    wait(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+
+def go_for_idle(place): # 前往挂机地点
+    if place == "燃烧平原":
+        transport("炽热哨站")
+        swipe([525, 925], vector=[0.012, -0.007], duration=1)
+        swipe([525, 925], vector=[0.025,  0.040], duration=4)
+        swipe([525, 925], vector=[0.048, -0.018], duration=4.3)
+        swipe([525, 925], vector=[0.048,  0.018], duration=13)
+
+def fight_for_mines(): # 153 mines in 1'15"
+    transport("北风营地")
+    swipe([525, 925], vector=[-0.038, 0.012], duration=5)
+    sleep(1)
+    swipe([525, 925], vector=[-0.014, -0.028], duration=0.8)
+    sleep(1)
+    swipe([525, 925], vector=[-0.014, -0.028], duration=1.8)
+    sleep(1)
+    swipe([525, 925], vector=[-0.01, 0.003], duration=2.5)
+    sleep(1)
+    swipe([525, 925], vector=[-0.035, -0.019], duration=2.8)
+    sleep(1)
+    swipe([525, 925], vector=[-0.03, 0.023], duration=2.2)
+    sleep(2)
+    swipe([525, 925], vector=[-0.03, 0.023], duration=1)
+    sleep(2)
+    swipe([525, 925], vector=[0.05, 0.005], duration=5.5)
+    sleep(1.5)
+    swipe([525, 925], vector=[0.005, 0.05], duration=2)
+    sleep(2)
+
+def fight_for_coins(): # $50 in 1‘56“
+    try:
+        touch(Template(r"chufa.png", target_pos=7, record_pos=(0.115, -0.225), resolution=(996, 1856)))
+        touch(Template(r"jiaotangshangu.png", record_pos=(0.166, -0.228), resolution=(1000, 1863)))
+        wait(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+        swipe([525, 925], vector=[0.02, -0.02], duration=0.6)
+        swipe([525, 925], vector=[0, -0.05], duration=1)
+        sleep(1) # 独眼食人魔
+        swipe([525, 925], vector=[0, 0.05], duration=1)
+        swipe([525, 925], vector=[-0.02, 0.02], duration=0.6)
+
+        touch(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+        touch(Template(r"bingguanbaolei.png", record_pos=(-0.265, 0.043), resolution=(1000, 1863)))
+        touch(Template(r"wangzuodating.png", record_pos=(0.166, -0.416), resolution=(1000, 1863)))
+        wait(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+
+        touch(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+        touch(Template(r"wuranzhilin.png", record_pos=(-0.262, -0.202), resolution=(1002, 1865)))
+        touch(Template(r"hanfengyingdi.png", record_pos=(0.165, -0.04), resolution=(1002, 1865)))
+        wait(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+        swipe([525, 925], vector=[0.09, -0.018], duration=1.5)
+        sleep(2) # 树精长老
+        swipe([525, 925], vector=[-0.09, 0.018], duration=1.5)
+
+        touch(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+        touch(Template(r"huangwuzhidi.png", record_pos=(-0.263, -0.329), resolution=(1000, 1863)))
+        touch(Template(r"pinjiyingdi.png", record_pos=(0.164, -0.42), resolution=(1000, 1863)))
+        wait(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+        swipe([525, 925], vector=[0.05, -0.01], duration=0.6)
+        sleep(1) # 树精领主
+        swipe([525, 925], vector=[-0.05, 0.01], duration=0.6)
+
+        touch(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+        touch(Template(r"shuangfengshangu.png", record_pos=(0.163, -0.227), resolution=(1000, 1863)))
+        wait(Template(r"chuansong.png", record_pos=(0.077, -0.122), resolution=(1000, 1863)))
+        swipe([525, 925], vector=[-0.01, -0.07], duration=2.5)
+        swipe([525, 925], vector=[0.05, -0.05], duration=0.5)
+        swipe([525, 925], vector=[-0.023, -0.03], duration=2.1)
+        sleep(1.5) # 疯牛魔王
+        swipe([525, 925], vector=[-0.02, -0.032], duration=7)
+        sleep(1.5) # 火焰石像
+
+        touch(Template(r"huicheng.png", record_pos=(0.401, 0.667), resolution=(1248, 2266)))
+        wait(Template(r"chufa.png", record_pos=(0.115, -0.225), resolution=(996, 1856)))
+
+    except:
+        reload()
+
+def fight_for_exps():
+    transport("冰冠禁区")
+    swipe([525, 925], vector=[-0.048, -0.016], duration=1)
+    sleep(2)
+
+    swipe([525, 925], vector=[ 0.048, -0.016], duration=3)
+    sleep(2)
+    swipe([525, 925], vector=[ 0.048, -0.016], duration=4)
+    sleep(2)
+
+    swipe([525, 925], vector=[ 0.048,  0.016], duration=4)
+    sleep(2)
+    swipe([525, 925], vector=[ 0.048,  0.016], duration=3.5)
+    sleep(2)
+    swipe([525, 925], vector=[ 0.048,  0.016], duration=4)
+    sleep(2)
+    swipe([525, 925], vector=[ 0.048,  0.016], duration=5)
+    sleep(2)
+
+    swipe([525, 925], vector=[-0.048,  0.016], duration=3)
+    sleep(2)
+    swipe([525, 925], vector=[-0.048,  0.016], duration=5)
+    sleep(2)
+    swipe([525, 925], vector=[-0.048,  0.016], duration=2)
+    sleep(2)
+    swipe([525, 925], vector=[-0.048,  0.016], duration=3.5)
+    sleep(2)
+    swipe([525, 925], vector=[-0.048,  0.016], duration=1)
+    # sleep(2)
+
+    # swipe([525, 925], vector=[-0.048, -0.016], duration=3)
+    # sleep(2)
+    # swipe([525, 925], vector=[-0.048, -0.016], duration=6)
+    # sleep(2)
+    # swipe([525, 925], vector=[-0.048, -0.016], duration=4)
+    # sleep(2)
+    # swipe([525, 925], vector=[-0.048, -0.016], duration=3.5)
+    # sleep(2)
+
+    # swipe([525, 925], vector=[ 0.048, -0.016], duration=4)
+    # sleep(2)
+    # swipe([525, 925], vector=[ 0.048, -0.016], duration=2)
+    # sleep(2)
+    # swipe([525, 925], vector=[ 0.048, -0.016], duration=2)
+    sleep(2)
+
+# mode = "mines"
+mode = "coins"
+# mode = "exps"
+# mode = "燃烧平原"
+
+while True:
+    if mode == "mines":
+        fight_for_mines()
+    elif mode == "coins":
+        fight_for_coins()
+    elif mode == "exps":
+        fight_for_exps()
+    else:
+        try:
+            go_for_idle(mode)
+            while True:
+                sleep(60)
+                assert_not_exists(Template(r"comfirm.png", record_pos=(0.173, 0.21), resolution=(1075, 1997)))
+        except:
+            reload()
+
+
